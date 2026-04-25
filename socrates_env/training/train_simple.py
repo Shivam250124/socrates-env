@@ -27,12 +27,15 @@ def train():
     model = AutoModelForCausalLM.from_pretrained(
         CONFIG["model_name"],
         device_map="auto",
-        torch_dtype=torch.float32,  # Force full precision
+        torch_dtype=torch.float16,  # Use fp16 for memory efficiency
     )
     tokenizer = AutoTokenizer.from_pretrained(CONFIG["model_name"])
     tokenizer.pad_token = tokenizer.eos_token
     
-    print("✓ Model loaded in float32")
+    # Enable gradient checkpointing to save memory
+    model.gradient_checkpointing_enable()
+    
+    print("✓ Model loaded in fp16 with gradient checkpointing")
     
     # Connect to environment
     print("\n2. Connecting to environment...")
@@ -91,14 +94,16 @@ def train():
     training_args = TrainingArguments(
         output_dir=CONFIG["output_dir"],
         num_train_epochs=3,
-        per_device_train_batch_size=2,  # Reduced for float32
-        gradient_accumulation_steps=2,  # Compensate for smaller batch
+        per_device_train_batch_size=1,  # Minimal batch size
+        gradient_accumulation_steps=4,  # Effective batch size = 4
         save_steps=100,
         logging_steps=10,
-        fp16=False,  # Explicitly disable fp16
-        bf16=False,  # Explicitly disable bf16
+        fp16=True,  # Use fp16 for T4 GPU
+        fp16_full_eval=False,  # Disable fp16 for eval to avoid issues
+        gradient_checkpointing=True,  # Save memory
+        optim="adamw_torch",  # Use standard optimizer
         report_to="none",
-        use_cpu=False,  # Use GPU
+        max_grad_norm=1.0,  # Gradient clipping
     )
     
     # Trainer
