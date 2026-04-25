@@ -1,6 +1,6 @@
 """
 Simple training script that actually works on T4 GPU.
-Uses basic supervised fine-tuning instead of GRPO.
+Uses 8-bit quantization with LoRA for memory efficiency.
 """
 
 import logging
@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 
 def train():
     """Simple training that works."""
-    from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
+    from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer, BitsAndBytesConfig
+    from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
     from datasets import Dataset
     from training.config import CONFIG
     from client import SocratesEnv
@@ -22,20 +23,37 @@ def train():
     print("SIMPLE TRAINING (Works on T4 GPU)")
     print("=" * 60)
     
-    # Load model
-    print("\n1. Loading model...")
+    # Load model with 8-bit quantization
+    print("\n1. Loading model with 8-bit quantization...")
+    bnb_config = BitsAndBytesConfig(
+        load_in_8bit=True,
+        bnb_8bit_compute_dtype=torch.float16,
+    )
+    
     model = AutoModelForCausalLM.from_pretrained(
         CONFIG["model_name"],
+        quantization_config=bnb_config,
         device_map="auto",
-        torch_dtype=torch.float16,  # Use fp16 for memory efficiency
     )
     tokenizer = AutoTokenizer.from_pretrained(CONFIG["model_name"])
     tokenizer.pad_token = tokenizer.eos_token
     
-    # Enable gradient checkpointing to save memory
-    model.gradient_checkpointing_enable()
+    # Prepare for LoRA training
+    model = prepare_model_for_kbit_training(model)
     
-    print("✓ Model loaded in fp16 with gradient checkpointing")
+    # Add LoRA adapters
+    lora_config = LoraConfig(
+        r=16,
+        lora_alpha=32,
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        lora_dropout=0.05,
+        bias="none",
+        task_type="CAUSAL_LM",
+    )
+    model = get_peft_model(model, lora_config)
+    model.print_trainable_parameters()
+    
+    print("✓ Model loaded with LoRA (only training 1-2% of parameters)")
     
     # Connect to environment
     print("\n2. Connecting to environment...")
@@ -94,16 +112,15 @@ def train():
     training_args = TrainingArguments(
         output_dir=CONFIG["output_dir"],
         num_train_epochs=3,
-        per_device_train_batch_size=1,  # Minimal batch size
-        gradient_accumulation_steps=4,  # Effective batch size = 4
+        per_device_train_batch_size=4,  # Can use larger batch with 8-bit
+        gradient_accumulation_steps=1,
         save_steps=100,
         logging_steps=10,
-        fp16=True,  # Use fp16 for T4 GPU
-        fp16_full_eval=False,  # Disable fp16 for eval to avoid issues
-        gradient_checkpointing=True,  # Save memory
-        optim="adamw_torch",  # Use standard optimizer
+        learning_rate=2e-4,  # Higher LR for LoRA
+        warmup_steps=10,
+        optim="adamw_8bit",  # 8-bit optimizer
         report_to="none",
-        max_grad_norm=1.0,  # Gradient clipping
+        max_grad_norm=1.0,
     )
     
     # Trainer
@@ -123,10 +140,21 @@ def train():
     print("\n6. Saving model...")
     output_dir = Path(CONFIG["output_dir"]) / "final"
     output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Save LoRA adapters
     model.save_pretrained(output_dir)
     tokenizer.save_pretrained(output_dir)
     
-    print(f"✓ Model saved to {output_dir}")
+    # Also merge and save full model
+    print("\n7. Merging LoRA weights...")
+    merged_model = model.merge_and_unload()
+    merged_dir = Path(CONFIG["output_dir"]) / "merged"
+    merged_dir.mkdir(parents=True, exist_ok=True)
+    merged_model.save_pretrained(merged_dir)
+    tokenizer.save_pretrained(merged_dir)
+    
+    print(f"✓ LoRA adapters saved to {output_dir}")
+    print(f"✓ Merged model saved to {merged_dir}")
     print("\n" + "=" * 60)
     print("TRAINING COMPLETE!")
     print("=" * 60)
