@@ -130,6 +130,16 @@ Agent: "Interesting! Why might that be?"
 ```
 ✅ Guides through questions
 
+### Training Details
+
+- **Method**: Supervised fine-tuning with LoRA adapters
+- **Base Model**: Qwen/Qwen2.5-1.5B-Instruct
+- **Training Data**: 50 Socratic dialogue examples from the environment
+- **Hardware**: Google Colab T4 GPU (~30 minutes)
+- **Optimization**: 8-bit quantization + LoRA (r=16, alpha=32)
+- **Training Script**: `training/train_simple.py`
+- **Notebook**: [SocratesTraining.ipynb](./notebooks/SocratesTraining.ipynb)
+
 ## Project Structure
 
 ```
@@ -161,6 +171,32 @@ socrates_env/
 ## Why It Matters
 
 The scientific community is beginning to realize that AI tutors that explain are less effective than AI tutors that question. This environment produces the latter. **300 million students globally** have no access to quality tutoring. A Socratic AI tutor that genuinely knows how to teach — not just explain — changes that equation fundamentally.
+
+## Future Work
+
+This project demonstrates the feasibility of training LLMs for Socratic teaching. Next steps include:
+
+### Advanced RL Training
+- **GRPO (Group Relative Policy Optimization)**: Train directly against the 5-signal reward function for more sophisticated teaching strategies
+- **PPO (Proximal Policy Optimization)**: Standard RL approach with KL-divergence constraints
+- **Curriculum Learning**: Progressive difficulty scaling with mastery-based gating
+
+### Environment Enhancements
+- **Multi-turn reasoning**: Extend episodes to 20+ steps for deeper conceptual exploration
+- **Dynamic student models**: Non-deterministic student responses using LLM-based simulation
+- **Broader concept bank**: Expand beyond programming to math, science, critical thinking
+- **Multi-modal teaching**: Incorporate diagrams, code execution, interactive examples
+
+### Evaluation & Deployment
+- **Human evaluation**: Test with real students to validate teaching effectiveness
+- **A/B testing**: Compare Socratic agents vs. traditional explanation-based tutors
+- **Production deployment**: Scale to handle thousands of concurrent students
+- **Multi-language support**: Extend to non-English languages
+
+### Research Directions
+- **Transfer learning**: Does Socratic teaching ability transfer across domains?
+- **Meta-learning**: Can agents learn to adapt their teaching style per student?
+- **Interpretability**: What internal representations enable Socratic questioning?
 
 ---
 
