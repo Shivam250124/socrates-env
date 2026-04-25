@@ -53,8 +53,6 @@ def train():
         lora_dropout=CONFIG["lora_dropout"],
         bias="none",
         use_gradient_checkpointing="unsloth",  # Use unsloth's optimized checkpointing
-        use_rslora=False,
-        use_loftq=False,
     )
 
     logger.info("Connecting to SOCRATES environment...")
