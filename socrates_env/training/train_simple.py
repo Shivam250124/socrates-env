@@ -74,12 +74,15 @@ def train():
     dataset = Dataset.from_list(examples)
     
     def tokenize_function(examples):
-        return tokenizer(
+        tokenized = tokenizer(
             examples["text"],
             padding="max_length",
             truncation=True,
             max_length=512,
         )
+        # Add labels (same as input_ids for causal LM)
+        tokenized["labels"] = tokenized["input_ids"].copy()
+        return tokenized
     
     tokenized_dataset = dataset.map(tokenize_function, batched=True)
     
