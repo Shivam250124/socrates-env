@@ -92,6 +92,8 @@ def train():
         logging_steps=CONFIG["log_every_n_steps"],
         save_steps=CONFIG["save_every_n_episodes"],
         report_to="wandb" if CONFIG["use_wandb"] else "none",
+        bf16=False,  # T4 GPU doesn't support bf16
+        fp16=True,   # Use fp16 instead
     )
 
     trainer = GRPOTrainer(
