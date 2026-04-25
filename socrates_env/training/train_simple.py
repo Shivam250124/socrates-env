@@ -26,13 +26,13 @@ def train():
     print("\n1. Loading model...")
     model = AutoModelForCausalLM.from_pretrained(
         CONFIG["model_name"],
-        torch_dtype=torch.float16,
         device_map="auto",
+        torch_dtype=torch.float32,  # Force full precision
     )
     tokenizer = AutoTokenizer.from_pretrained(CONFIG["model_name"])
     tokenizer.pad_token = tokenizer.eos_token
     
-    print("✓ Model loaded")
+    print("✓ Model loaded in float32")
     
     # Connect to environment
     print("\n2. Connecting to environment...")
@@ -91,11 +91,14 @@ def train():
     training_args = TrainingArguments(
         output_dir=CONFIG["output_dir"],
         num_train_epochs=3,
-        per_device_train_batch_size=4,
+        per_device_train_batch_size=2,  # Reduced for float32
+        gradient_accumulation_steps=2,  # Compensate for smaller batch
         save_steps=100,
         logging_steps=10,
-        fp16=True,
+        fp16=False,  # Explicitly disable fp16
+        bf16=False,  # Explicitly disable bf16
         report_to="none",
+        use_cpu=False,  # Use GPU
     )
     
     # Trainer
