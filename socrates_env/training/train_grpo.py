@@ -17,6 +17,13 @@ logger = logging.getLogger(__name__)
 
 def train():
     """Main training entry point."""
+    import os
+    import torch
+    
+    # Force fp16, disable bf16 for T4 GPU
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    torch.backends.cuda.matmul.allow_tf32 = True
+    
     from trl import GRPOTrainer, GRPOConfig
     from unsloth import FastLanguageModel
     from training.config import CONFIG
@@ -25,10 +32,15 @@ def train():
     from models import SocratesAction
 
     logger.info("Loading model with Unsloth optimization...")
+    
+    # Force fp16 for T4 GPU
+    import torch
+    torch_dtype = torch.float16  # Explicitly use fp16, not bf16
+    
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=CONFIG["model_name"],
         max_seq_length=2048,
-        dtype=None,
+        dtype=torch_dtype,  # Explicitly set to fp16
         load_in_4bit=CONFIG["load_in_4bit"],
     )
 
@@ -40,7 +52,9 @@ def train():
         lora_alpha=CONFIG["lora_alpha"],
         lora_dropout=CONFIG["lora_dropout"],
         bias="none",
-        use_gradient_checkpointing=True,
+        use_gradient_checkpointing="unsloth",  # Use unsloth's optimized checkpointing
+        use_rslora=False,
+        use_loftq=False,
     )
 
     logger.info("Connecting to SOCRATES environment...")
