@@ -1,0 +1,54 @@
+{
+    "concept_id": "integer_division",
+    "difficulty": "easy",
+    "target_question": "Why does integer division truncate in many languages?",
+    "description": "Why dividing two integers can give a truncated result instead of a decimal",
+    "initial_misconception": "Division of two integers should always give a decimal result.",
+    "initial_student_statement": "I did 7 / 2 and got 3 instead of 3.5. That's just wrong! Division should give the real answer, not chop off the decimal part.",
+    "correct_understanding": "In many languages (Python 2, C, Java), dividing two integers performs integer division, which truncates the result. This preserves the type (int / int = int). Python 3 changed / to true division and uses // for integer division. The distinction exists because integer operations are faster and many algorithms need whole-number results.",
+    "answer_keywords": [
+        "integer division", "truncation", "floor division", "type preservation",
+        "int divided by int", "truncates", "discards the remainder",
+        "whole number result"
+    ],
+    "concept_keywords": [
+        "division", "integer", "decimal", "truncate", "floor", "result",
+        "type", "remainder", "whole", "number", "float", "chopping"
+    ],
+    "good_question_templates": [
+        "What type is 7? What type is 2? What type do you expect the result to be?",
+        "If both inputs are integers, should the output always be an integer too?",
+        "What would happen in the computer if it tried to store 3.5 as an integer?",
+        "Can you think of a situation where you'd actually WANT just the whole number part?",
+        "How many whole times does 2 go into 7?"
+    ],
+    "responses": {
+        "confused": [
+            "The type? They're just numbers! 7 divided by 2 is obviously 3.5.",
+            "Why would the type of the inputs matter for division?"
+        ],
+        "uncertain": [
+            "Hmm, so because 7 and 2 are both integers, the result stays as an integer?",
+            "Wait, so the computer is trying to give an integer answer because the inputs were integers?"
+        ],
+        "starting_to_see": [
+            "Oh, so it's like asking 'how many whole times does 2 go into 7' — and the answer is 3 with a remainder of 1?",
+            "So integer division is basically the quotient without the remainder. And you'd need float division for 3.5?"
+        ],
+        "almost_there": [
+            "That makes sense! And sometimes you actually want integer division — like dividing items into groups where you can't have half an item.",
+            "I see — Python 3 uses / for real division and // for integer division. The old behavior wasn't wrong, it was just a different operation."
+        ],
+        "understood": [
+            "I get it! Integer division gives the whole-number quotient because it preserves the integer type. Many algorithms need this. Python 3 separates / (true division) from // (floor division) to make the intent explicit.",
+            "Now I understand — dividing integers gives an integer result by design. The computer wasn't wrong, it was doing integer division. It's about type consistency and there are real use cases where you want truncated results."
+        ]
+    },
+    "misconception_phrases": [
+        "should always give a decimal",
+        "that's just wrong",
+        "real answer",
+        "chop off the decimal"
+    ],
+    "min_steps_to_success": 3
+}

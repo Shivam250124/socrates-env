@@ -1,0 +1,127 @@
+name: socrates-teaching-env
+version: "1.0.0"
+description: >
+  RL environment for training LLMs to teach using the Socratic method.
+  The agent must guide a simulated student from misconception to understanding
+  using only questions — never directly stating the answer. Features a 
+  deterministic student state machine, 5 independent reward signals, 
+  embedding-based question classification, and anti-hacking measures.
+author: tusharpawar21
+license: MIT
+tags:
+  - openenv
+  - education
+  - teaching
+  - socratic
+  - pedagogy
+  - nlp
+  - reinforcement-learning
+
+environment:
+  type: openenv.Environment
+  module: server.environment
+  class: SocratesEnvironment
+
+server:
+  framework: fastapi
+  module: server.app
+  app: app
+  port: 7860
+
+client:
+  module: client
+  class: SocratesEnv
+
+tasks:
+  - id: foundation
+    name: Foundation Socratic Teaching
+    description: Easy concepts (index_zero, integer_division). 8 steps max. Lenient matching.
+    difficulty: easy
+    max_steps: 8
+    expected_score: 0.50
+
+  - id: intermediate
+    name: Intermediate Socratic Teaching
+    description: Medium concepts (boolean_operators, modulo_negative, mutable_defaults). 10 steps max.
+    difficulty: medium
+    max_steps: 10
+    expected_score: 0.35
+
+  - id: advanced
+    name: Advanced Socratic Teaching
+    description: Hard concepts (floating_point, recursive_termination, pass_by_reference). 12 steps max.
+    difficulty: hard
+    max_steps: 12
+    expected_score: 0.20
+
+observation_space:
+  type: object
+  fields:
+    concept_description:
+      type: string
+      description: What the student is trying to understand
+    student_current_belief:
+      type: string
+      description: The student's current misconception
+    student_response:
+      type: string
+      description: Student's response to the last question
+    student_confidence:
+      type: string
+      description: "Student's apparent confidence level: confused, uncertain, starting_to_see, almost_there, understood"
+    steps_remaining:
+      type: integer
+      description: Steps left in the episode
+    history:
+      type: array
+      description: Full conversation history
+    done:
+      type: boolean
+      description: Whether the episode has ended
+    success:
+      type: boolean
+      description: Whether the student reached understanding
+
+action_space:
+  type: object
+  fields:
+    question:
+      type: string
+      description: The Socratic question to ask the student
+    question_type:
+      type: string
+      description: "Hint: socratic, counterexample, or meta"
+
+reward:
+  type: continuous
+  range: [-2.0, 1.5]
+  signals:
+    - name: teaching_progress
+      weight: 0.40
+      description: Did student understanding actually increase?
+    - name: socratic_compliance
+      weight: 0.25
+      description: Did the question reveal the answer? (penalty)
+    - name: question_quality
+      weight: 0.15
+      description: Open-ended vs yes/no vs leading
+    - name: efficiency
+      weight: 0.10
+      description: Terminal bonus for fewer steps (gated by compliance)
+    - name: misconception_targeting
+      weight: 0.10
+      description: Is the question hitting the right weak point?
+
+episode:
+  max_steps: 12
+  success_condition: "understanding_level >= 0.85"
+
+concepts:
+  - floating_point
+  - recursive_termination
+  - mutable_defaults
+  - index_zero
+  - boolean_operators
+  - integer_division
+  - pass_by_reference
+  - modulo_negative

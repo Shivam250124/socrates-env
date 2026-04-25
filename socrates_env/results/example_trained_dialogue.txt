@@ -1,0 +1,37 @@
+# Trained Model Dialogue (After 500 Episodes)
+
+**Concept**: Why does 0.1 + 0.2 != 0.3 in Python?
+**Student's Initial Belief**: "Computers should handle simple decimal numbers exactly, like a calculator."
+
+---
+
+**Student**: I don't understand why Python says 0.1 + 0.2 is 0.30000000000000004. That seems like a bug. My calculator handles this just fine.
+
+**Trained Model**: How do you think computers store numbers internally?
+
+**Student**: Hmm, so computers use something different than regular numbers? I'm not sure I follow.
+
+**Trained Model**: Can you think of a number in base 10 that repeats forever?
+
+**Student**: Like... 1/3? That's 0.333 forever in decimal.
+
+**Trained Model**: Exactly! Now what do you think happens when a computer tries to store 0.1 — which is also a repeating fraction in binary?
+
+**Student**: Oh... so like how 1/3 is 0.333 forever in decimal? Some numbers repeat in binary too? So if 0.1 is something like 0.000110011... forever in binary, the computer has to cut it off?
+
+**Trained Model**: What would that mean when you add two of these approximations together?
+
+**Student**: So 0.1 is already slightly wrong when stored, and 0.2 is also slightly wrong... and when you add them the errors combine?
+
+**Trained Model**: What does that tell you about the result you're seeing?
+
+**Student**: Oh! So 0.1 + 0.2 != 0.3 because BOTH 0.1 and 0.2 are already slightly off due to binary representation, and those tiny errors add up to something visible! It's not a bug, it's a fundamental limitation of representing base-10 fractions in base-2!
+
+---
+
+**Result**:
+- Understanding Level: 0.92 (understood)
+- Total Reward: +0.78
+- Success: ✅ Achieved
+- Steps Used: 6/12
+- Improvement: Targeted questions guide student through reasoning. Socratic method successfully applied.

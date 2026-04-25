@@ -1,0 +1,55 @@
+{
+    "concept_id": "boolean_operators",
+    "difficulty": "medium",
+    "target_question": "Why does Python's 'and'/'or' return actual values instead of True/False?",
+    "description": "Why Python's and/or operators return operand values, not boolean True/False",
+    "initial_misconception": "The 'and' and 'or' operators always return True or False.",
+    "initial_student_statement": "I wrote 'x = 5 or 3' and got 5, not True. And '0 and 7' gives 0, not False. That seems broken. Boolean operators should give boolean results!",
+    "correct_understanding": "Python's and/or use short-circuit evaluation and return the actual operand that determined the result, not True/False. 'or' returns the first truthy value (or the last value if all falsy). 'and' returns the first falsy value (or the last value if all truthy).",
+    "answer_keywords": [
+        "short-circuit", "truthy", "falsy", "returns the operand",
+        "actual value", "first truthy", "first falsy", "short circuit evaluation",
+        "returns the value that determined"
+    ],
+    "concept_keywords": [
+        "and", "or", "boolean", "true", "false", "operator",
+        "return", "value", "truthy", "falsy", "short", "circuit",
+        "evaluate", "result", "operand"
+    ],
+    "good_question_templates": [
+        "What does Python consider as 'truthy' or 'falsy'?",
+        "If Python knows the result after checking just the first operand, does it need to check the second?",
+        "What value would be most useful to return — True, or the actual thing that made it true?",
+        "What happens with 'None or default_value' — and why might that be useful?",
+        "Can you predict what '[] or [1,2,3]' returns?"
+    ],
+    "responses": {
+        "confused": [
+            "Truthy and falsy? I thought things are either True or False, nothing else.",
+            "But 'or' is a boolean operator — it should give a boolean answer!"
+        ],
+        "uncertain": [
+            "Wait, so Python treats other values as true or false? Like 0 is false and 5 is true?",
+            "So 'or' doesn't just check true/false, it also decides which value to give back?"
+        ],
+        "starting_to_see": [
+            "Oh! So '5 or 3' — Python checks 5, it's truthy, so it returns 5 immediately without even looking at 3?",
+            "And '0 and 7' — Python checks 0, it's falsy, so it returns 0 immediately. It doesn't need to check 7!"
+        ],
+        "almost_there": [
+            "So it's actually really useful — 'name or \"Anonymous\"' gives the name if it exists, or the default! That's clever.",
+            "I see — returning the actual value is more useful than True/False. It enables patterns like default values and guard clauses."
+        ],
+        "understood": [
+            "I get it! Python's and/or use short-circuit evaluation and return the actual determining value, not a boolean. 'or' returns the first truthy value, 'and' returns the first falsy value. It's by design, not a bug — and it enables really elegant patterns!",
+            "Now I understand — it's short-circuit evaluation returning the determining operand. This is a feature, not a flaw. It's why 'x or default' is such a common Python idiom."
+        ]
+    },
+    "misconception_phrases": [
+        "always return True or False",
+        "boolean operators should give boolean",
+        "seems broken",
+        "should give boolean results"
+    ],
+    "min_steps_to_success": 4
+}

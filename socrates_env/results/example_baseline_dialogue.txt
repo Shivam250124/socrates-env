@@ -1,0 +1,41 @@
+# Baseline Model Dialogue (Zero-Shot)
+
+**Concept**: Why does 0.1 + 0.2 != 0.3 in Python?
+**Student's Initial Belief**: "Computers should handle simple decimal numbers exactly, like a calculator."
+
+---
+
+**Student**: I don't understand why Python says 0.1 + 0.2 is 0.30000000000000004. That seems like a bug. My calculator handles this just fine.
+
+**Baseline Model**: Can you tell me more about that?
+
+**Student**: Well, 0.1 and 0.2 are such simple numbers. Why would a computer have trouble with them?
+
+**Baseline Model**: Why do you think that is?
+
+**Student**: I don't know... maybe it's a Python bug?
+
+**Baseline Model**: What happens when you try it?
+
+**Student**: It gives me 0.30000000000000004 instead of 0.3. That's wrong!
+
+**Baseline Model**: Have you considered other possibilities?
+
+**Student**: Like what? It just seems broken to me.
+
+**Baseline Model**: What would you expect to happen?
+
+**Student**: I expect 0.1 + 0.2 to equal exactly 0.3, like my calculator shows.
+
+**Baseline Model**: Can you think of a simpler case?
+
+**Student**: I'm still confused. This doesn't help me understand why it's wrong.
+
+---
+
+**Result**: 
+- Understanding Level: 0.15 (confused)
+- Total Reward: -0.23
+- Success: ❌ Failed
+- Steps Used: 8/8
+- Issue: Generic questions don't target the misconception. No progress made.

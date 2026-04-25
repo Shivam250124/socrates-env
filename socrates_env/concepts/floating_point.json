@@ -1,0 +1,58 @@
+{
+    "concept_id": "floating_point",
+    "difficulty": "hard",
+    "target_question": "Why does 0.1 + 0.2 != 0.3 in Python?",
+    "description": "Why 0.1 + 0.2 does not equal exactly 0.3 in Python",
+    "initial_misconception": "Computers should handle simple decimal numbers exactly, like a calculator.",
+    "initial_student_statement": "I don't understand why Python says 0.1 + 0.2 is 0.30000000000000004. That seems like a bug. My calculator handles this just fine.",
+    "correct_understanding": "Floating point numbers are stored as binary fractions (IEEE 754), so most decimal fractions cannot be represented exactly, causing tiny rounding errors that accumulate during arithmetic.",
+    "answer_keywords": [
+        "floating point", "ieee 754", "binary fraction", "binary representation",
+        "cannot be represented exactly", "rounding error", "base 2", "mantissa",
+        "inexact representation", "binary decimal"
+    ],
+    "concept_keywords": [
+        "computer", "store", "number", "decimal", "binary", "memory",
+        "representation", "fraction", "approximate", "exact", "calculator",
+        "0.1", "0.2", "0.3", "precision", "rounding"
+    ],
+    "good_question_templates": [
+        "How do you think computers store numbers internally?",
+        "What would it mean to represent 0.1 in base 2?",
+        "Have you ever seen a number that can't be expressed exactly as a fraction?",
+        "What happens when you add two approximations together?",
+        "Can you think of a number in base 10 that repeats forever?",
+        "What does 1/3 look like in decimal form?",
+        "If a number can't be stored exactly, what happens to the tiny leftover?"
+    ],
+    "responses": {
+        "confused": [
+            "I don't get it. Computers are really powerful, so why can't they just store 0.1 correctly?",
+            "But 0.1 is such a simple number... why would a computer have trouble with it?"
+        ],
+        "uncertain": [
+            "Hmm, so computers use something different than regular numbers? I'm not sure I follow.",
+            "Wait, are you saying computers don't use normal decimal digits inside?"
+        ],
+        "starting_to_see": [
+            "Oh... so like how 1/3 is 0.333 forever in decimal? Some numbers repeat in binary too?",
+            "So if 0.1 is something like 0.000110011... forever in binary, the computer has to cut it off?"
+        ],
+        "almost_there": [
+            "So 0.1 is already slightly wrong when stored, and 0.2 is also slightly wrong... and when you add them the errors combine?",
+            "I think I see — both numbers are approximations, so their sum inherits both approximation errors."
+        ],
+        "understood": [
+            "Oh! So 0.1 + 0.2 != 0.3 because BOTH 0.1 and 0.2 are already slightly off due to binary representation, and those tiny errors add up to something visible!",
+            "I get it now — it's not a bug, it's a fundamental limitation of representing base-10 fractions in base-2. The error was always there, we just couldn't see it with one number."
+        ]
+    },
+    "misconception_phrases": [
+        "computers are exact",
+        "calculator handles this",
+        "just a bug",
+        "simple number",
+        "should be exact"
+    ],
+    "min_steps_to_success": 5
+}

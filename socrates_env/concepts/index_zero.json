@@ -1,0 +1,54 @@
+{
+    "concept_id": "index_zero",
+    "difficulty": "easy",
+    "target_question": "Why do arrays start at 0 instead of 1?",
+    "description": "Why array indices start at 0 in most programming languages",
+    "initial_misconception": "Arrays should start at 1 because that's more natural for counting.",
+    "initial_student_statement": "Why does the first element have index 0? That's confusing. When I count things, I start at 1, so arrays should too.",
+    "correct_understanding": "Array indices represent offsets from the start of the array in memory. The first element is at offset 0 from the base address. Starting at 0 also makes arithmetic with indices simpler and avoids off-by-one errors in many algorithms.",
+    "answer_keywords": [
+        "offset", "memory address", "base address", "pointer arithmetic",
+        "distance from start", "zero offset", "off-by-one"
+    ],
+    "concept_keywords": [
+        "array", "index", "start", "first", "element", "count",
+        "position", "offset", "memory", "address", "zero", "one",
+        "beginning", "distance", "location"
+    ],
+    "good_question_templates": [
+        "Where in the computer's memory do you think an array lives?",
+        "If arrays are stored contiguously in memory, how would you describe the position of the first element?",
+        "What's the distance from the start of the array to the first element?",
+        "Think of a ruler — what number is at the very starting point?",
+        "What would happen to index calculations if we started at 1 instead?"
+    ],
+    "responses": {
+        "confused": [
+            "I don't know, somewhere in memory? I just know the first thing should be number 1.",
+            "Why does it matter where it's stored? 1 just makes more sense for humans."
+        ],
+        "uncertain": [
+            "Hmm, so the array takes up space in memory? Like consecutive slots?",
+            "Wait, so the index is about where things are in memory, not just counting?"
+        ],
+        "starting_to_see": [
+            "Oh, so the first element is right at the beginning — it has zero distance from the start!",
+            "So the index is more like an offset... and the first item has an offset of 0 from the start."
+        ],
+        "almost_there": [
+            "That makes sense! It's not 'which number item,' it's 'how far from the beginning.' And the first one IS the beginning, so it's 0!",
+            "I see — 0-indexing aligns with how memory works. Starting at 1 would always require subtracting 1 internally."
+        ],
+        "understood": [
+            "I get it! Array indices are memory offsets from the base address. The first element IS the base, so its offset is 0. Starting at 0 makes pointer arithmetic clean and avoids off-by-one issues.",
+            "Now I understand — it's not about human counting, it's about computer memory layout. 0-indexing is simpler for the machine and actually prevents bugs in index math."
+        ]
+    },
+    "misconception_phrases": [
+        "should start at 1",
+        "more natural",
+        "when I count",
+        "that's confusing"
+    ],
+    "min_steps_to_success": 3
+}

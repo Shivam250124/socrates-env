@@ -1,0 +1,56 @@
+{
+    "concept_id": "recursive_termination",
+    "difficulty": "hard",
+    "target_question": "Why can recursion crash your program?",
+    "description": "Why recursive functions can cause a stack overflow if not properly terminated",
+    "initial_misconception": "Recursion should always work itself out and stop eventually.",
+    "initial_student_statement": "I wrote a recursive function but it crashes with a RecursionError. But it should eventually stop, right? Each call does something different.",
+    "correct_understanding": "Each recursive call adds a new frame to the call stack. Without a proper base case that is guaranteed to be reached, the stack grows until it overflows. Recursion doesn't automatically know when to stop.",
+    "answer_keywords": [
+        "stack overflow", "base case", "call stack", "stack frame",
+        "termination condition", "recursion depth", "infinite recursion",
+        "no stopping condition", "recursive case"
+    ],
+    "concept_keywords": [
+        "recursion", "function", "call", "stack", "crash", "stop",
+        "terminate", "base", "condition", "depth", "infinite",
+        "overflow", "frame", "memory", "limit"
+    ],
+    "good_question_templates": [
+        "What actually happens in the computer when a function calls itself?",
+        "Where does the computer keep track of each function call?",
+        "What would happen if you kept stacking books on a table with a weight limit?",
+        "How does the function know when to stop calling itself?",
+        "What tells a recursive function that it's done?",
+        "Can you trace through what happens on each call?"
+    ],
+    "responses": {
+        "confused": [
+            "I don't know, I thought the computer just figures it out. Like it remembers what it already did?",
+            "But each call is doing work, right? So eventually it should finish?"
+        ],
+        "uncertain": [
+            "So... the computer needs to remember every call? Like keeping a list of all the calls it hasn't finished?",
+            "Wait, does each call take up space somewhere?"
+        ],
+        "starting_to_see": [
+            "Oh, so each call adds something to memory? And if there are too many, the memory runs out?",
+            "So if I call factorial(5), the computer has to remember factorial(5) is waiting for factorial(4), which is waiting for factorial(3)..."
+        ],
+        "almost_there": [
+            "I see — without something that says 'stop here,' the calls just keep piling up forever. That's why we need a base case!",
+            "So the base case is what tells the recursion to stop, and without it, the stack just grows until it crashes?"
+        ],
+        "understood": [
+            "I get it! Each recursive call adds a frame to the call stack, and without a base case the stack grows infinitely until it overflows. The function doesn't magically know when to stop — YOU have to tell it!",
+            "So a RecursionError means the call stack ran out of space because there's no reachable base case to unwind the chain. The fix is to ensure the base case is always eventually reached."
+        ]
+    },
+    "misconception_phrases": [
+        "should work itself out",
+        "eventually stop",
+        "figures it out",
+        "each call does something different"
+    ],
+    "min_steps_to_success": 5
+}

@@ -1,0 +1,55 @@
+{
+    "concept_id": "modulo_negative",
+    "difficulty": "medium",
+    "target_question": "Why does -1 % 3 equal 2 in Python?",
+    "description": "Why Python's modulo operator gives unexpected results with negative numbers",
+    "initial_misconception": "Modulo should always return a positive number that's the simple remainder.",
+    "initial_student_statement": "I calculated -1 % 3 and got 2. That makes no sense! The remainder of -1 divided by 3 should be -1, or maybe 1. Where did 2 come from?",
+    "correct_understanding": "Python's modulo always returns a result with the same sign as the divisor. It uses floor division: -1 = 3 * (-1) + 2, so -1 % 3 = 2. This is mathematically consistent (the result is always in [0, divisor)), unlike C where -1 % 3 = -1 using truncation toward zero.",
+    "answer_keywords": [
+        "floor division", "sign of divisor", "truncation toward zero",
+        "mathematical modulo", "euclidean", "remainder sign",
+        "always non-negative"
+    ],
+    "concept_keywords": [
+        "modulo", "remainder", "negative", "division", "floor",
+        "sign", "result", "divisor", "dividend", "truncation",
+        "positive", "mod", "percent"
+    ],
+    "good_question_templates": [
+        "What does the modulo operation really mean mathematically?",
+        "If -1 = 3 * q + r, what values of q and r satisfy this where r is between 0 and 2?",
+        "What should the sign of the remainder be — should it match the dividend or the divisor?",
+        "What does 'floor division' mean, and how does it differ from regular truncation?",
+        "Can you think of a clock analogy — what's -1 hours on a 3-hour clock?"
+    ],
+    "responses": {
+        "confused": [
+            "What? I just divide -1 by 3 and take the leftover. That's -1 or 1, not 2!",
+            "I don't see how 2 is even possible. -1 is less than 3."
+        ],
+        "uncertain": [
+            "Hmm, so there's more than one way to define the remainder?",
+            "Wait, the sign of the remainder depends on how you do the division?"
+        ],
+        "starting_to_see": [
+            "Oh — so if I write -1 = 3 × (-1) + 2, that works out! And Python uses this version because the remainder is always positive?",
+            "So Python floors the division (rounds toward negative infinity), which gives a different remainder than truncating toward zero."
+        ],
+        "almost_there": [
+            "Like a clock! Going -1 hours on a 3-hour clock puts you at hour 2. Python's modulo works like a clock — it wraps around!",
+            "So Python chose floor division for modulo to guarantee the result is always in [0, divisor). That's more useful for things like array wrapping and circular buffers."
+        ],
+        "understood": [
+            "I get it! Python uses floor division for modulo, so -1 % 3 = 2 because -1 = 3 × (-1) + 2. The remainder always has the same sign as the divisor. C uses truncation so -1 % 3 = -1. Neither is 'wrong' — they use different division conventions!",
+            "Now I understand — it's about floor vs truncated division. Python's choice makes modulo behave like a clock, always giving a result in [0, n), which is usually what you want for circular indexing and wrapping."
+        ]
+    },
+    "misconception_phrases": [
+        "should always return positive",
+        "simple remainder",
+        "makes no sense",
+        "where did 2 come from"
+    ],
+    "min_steps_to_success": 4
+}

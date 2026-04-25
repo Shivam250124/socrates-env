@@ -1,0 +1,55 @@
+{
+    "concept_id": "mutable_defaults",
+    "difficulty": "medium",
+    "target_question": "Why do mutable default arguments in Python cause unexpected behavior?",
+    "description": "Why using a mutable object like a list as a default argument causes it to persist across calls",
+    "initial_misconception": "Default arguments are re-created fresh every time you call the function.",
+    "initial_student_statement": "I have a function with def add_item(item, lst=[]). Every time I call it, the list keeps growing! But the default should be a new empty list each time, right?",
+    "correct_understanding": "Default arguments in Python are evaluated once when the function is defined, not each time it's called. A mutable default like [] is created once and shared across all calls that don't provide that argument.",
+    "answer_keywords": [
+        "evaluated once", "function definition", "shared across calls",
+        "same object", "defined once", "not each call", "mutable default",
+        "persistent", "single instance"
+    ],
+    "concept_keywords": [
+        "default", "argument", "function", "list", "mutable", "call",
+        "defined", "created", "empty", "shared", "persist", "parameter",
+        "evaluated", "append", "grows"
+    ],
+    "good_question_templates": [
+        "When do you think Python creates that default empty list?",
+        "What if the default value was created only once — what would that mean?",
+        "Can you check if the list object is the same one across two calls using id()?",
+        "What's the difference between when a function is defined versus when it's called?",
+        "What would happen if the default was an immutable value like None instead?"
+    ],
+    "responses": {
+        "confused": [
+            "What do you mean 'when it's created'? The default is [] so it should just be a new list each time?",
+            "I don't understand — [] literally means 'make a new empty list,' doesn't it?"
+        ],
+        "uncertain": [
+            "Hmm, so the [] in the function signature... it's not like writing lst = [] inside the function?",
+            "Wait, are you saying the default list existed before I even called the function?"
+        ],
+        "starting_to_see": [
+            "Oh... so the list is created when Python reads the def statement, not when I call the function? So there's only one list object?",
+            "So every call that doesn't pass a list argument gets the same list? That's why it keeps growing!"
+        ],
+        "almost_there": [
+            "I see — the default is a single object that persists. That's why people use None as the default and create a new list inside the function!",
+            "So the fix is def add_item(item, lst=None): if lst is None: lst = [] — because None is immutable and we create a new list each call."
+        ],
+        "understood": [
+            "Got it! Python evaluates default arguments once at function definition time. Mutable defaults like [] are shared across all calls, so they accumulate state. The fix is to use None and create the mutable inside the function body.",
+            "I understand now — it's about when the default is evaluated. Definition time, not call time. That's a fundamental Python behavior, not a bug."
+        ]
+    },
+    "misconception_phrases": [
+        "re-created each call",
+        "new empty list each time",
+        "default should be new",
+        "literally means make a new"
+    ],
+    "min_steps_to_success": 4
+}

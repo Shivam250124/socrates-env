@@ -1,0 +1,55 @@
+{
+    "concept_id": "pass_by_reference",
+    "difficulty": "hard",
+    "target_question": "Why does changing a list inside a function affect the original?",
+    "description": "How Python passes objects by reference to their identity, not by copying values",
+    "initial_misconception": "Python is either fully pass-by-value or pass-by-reference, and I can't tell which.",
+    "initial_student_statement": "I passed a list to a function and modified it inside, and the original list changed too! But when I reassigned an integer inside a function, the original didn't change. This is so inconsistent!",
+    "correct_understanding": "Python uses 'pass by object reference' (pass by assignment). The function receives a reference to the same object. Mutating the object (like list.append) changes the original because it's the same object. Reassigning the variable (x = new_value) only changes the local name binding, not the original object.",
+    "answer_keywords": [
+        "object reference", "pass by assignment", "same object", "reference",
+        "name binding", "mutable", "immutable", "local variable",
+        "reassign", "mutate", "identity"
+    ],
+    "concept_keywords": [
+        "pass", "reference", "value", "function", "list", "change",
+        "original", "copy", "modify", "variable", "object", "binding",
+        "mutable", "immutable", "assign", "argument"
+    ],
+    "good_question_templates": [
+        "When you pass a list to a function, what exactly is being passed — the list itself or something else?",
+        "What's the difference between modifying a list's contents and replacing a variable's value entirely?",
+        "If I give you a piece of paper with an address on it, can you repaint the house? Can you change what address is on the paper?",
+        "What happens when you do lst.append(x) versus lst = [x]?",
+        "Can you check if the list inside the function is literally the same object as the one outside?"
+    ],
+    "responses": {
+        "confused": [
+            "I don't know, I thought Python just copies things when you pass them to functions?",
+            "If it's pass by reference, why doesn't reassigning x inside the function change x outside?"
+        ],
+        "uncertain": [
+            "So... the function gets access to the same list, not a copy? Like a shared pointer?",
+            "Hmm, so modifying the list's contents is different from pointing the variable at a new list?"
+        ],
+        "starting_to_see": [
+            "Oh! So when I do lst.append(), I'm changing the actual list object. But when I do lst = [new], I'm just making the local variable point somewhere else?",
+            "It's like the function has a sticky note with the address of the list. It can change what's inside the house, but scribbling a new address on the sticky note doesn't move the house!"
+        ],
+        "almost_there": [
+            "So Python passes the reference to the object. Mutating operations act on the original, but assignment just rebinds the local name. That's why integers seem pass-by-value — you can't mutate them, only reassign!",
+            "I see — it's not pass-by-value OR pass-by-reference in the C sense. It's more like pass-by-object-reference. The reference is passed by value."
+        ],
+        "understood": [
+            "I get it! Python passes object references by value. The function gets a copy of the reference pointing to the same object. Mutating the object (append, index assignment) changes the original. Reassigning the variable just rebinds the local name. Immutable objects 'seem' pass-by-value because you can't mutate them — only reassign.",
+            "Now I understand the whole picture — it's pass by object reference. The key is distinguishing mutation (changes the object) from rebinding (changes what the name points to). That's why list.append affects the caller but x = new_value doesn't."
+        ]
+    },
+    "misconception_phrases": [
+        "fully pass-by-value",
+        "fully pass-by-reference",
+        "so inconsistent",
+        "copies things"
+    ],
+    "min_steps_to_success": 5
+}
