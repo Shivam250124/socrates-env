@@ -4,6 +4,7 @@
 
 🔗 **Links:**
 - 🚀 **[Hugging Face Space Demo](https://huggingface.co/spaces/tusharpawar21/socrates-teaching-env)**
+- 🤗 **[Trained Model](https://huggingface.co/shivam250124/socrates-tutor-qwen-1.5b)** (Qwen2.5-1.5B + LoRA)
 - 📖 **[Blog Post / Writeup](./BLOG_POST.md)**
 - 📓 **[Colab Training Notebook](./notebooks/SocratesTraining.ipynb)**
 
