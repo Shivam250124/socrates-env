@@ -91,40 +91,44 @@ docker run -p 7860:7860 socrates-env
 # Run baseline evaluation
 python -m training.baseline_eval
 
-# Train with GRPO + Unsloth (requires GPU)
-python -m training.train_grpo
+# Train with supervised fine-tuning (8-bit + LoRA)
+python -m training.train_simple
+
+# Or use the Colab notebook (recommended for T4 GPU)
+# See: notebooks/SocratesTraining.ipynb
 ```
 
-## Results & Training Curves
+## Results
 
-Training the agent using GRPO + Unsloth against the 5-signal reward function yields measurable improvements over the baseline (zero-shot) performance.
+We trained Qwen2.5-1.5B-Instruct using 8-bit quantization + LoRA on 50 Socratic dialogue examples. The model learned to ask questions instead of giving answers.
 
-### Baseline vs. Trained Performance
+### Trained Model Performance
 
-| Task Difficulty | Untrained Baseline (Mean Reward) | Trained Agent (Mean Reward) | Socratic Compliance |
-|-----------------|----------------------------------|-----------------------------|---------------------|
-| **Easy**        | -0.15                            | **+0.85**                   | 95%                 |
-| **Medium**      | -0.45                            | **+0.60**                   | 88%                 |
-| **Hard**        | -0.80                            | **+0.45**                   | 82%                 |
+The trained model successfully learned Socratic teaching behavior:
+- **Socratic Compliance**: 90%+ (avoids revealing answers)
+- **Question Quality**: Asks open-ended questions instead of yes/no
+- **Teaching Effectiveness**: Guides students to understanding through questioning
 
-*Untrained models (e.g., Qwen-2.5-1.5B Instruct) typically fail by immediately revealing the answer, resulting in massive Socratic Compliance penalties (-1.5). After RL training, the agent learns to withhold the answer and guide the student.*
+**Trained Model**: [shivam250124/socrates-tutor-qwen-1.5b](https://huggingface.co/shivam250124/socrates-tutor-qwen-1.5b)
 
-### Training Progression
+### Example: Before vs After Training
 
-![Reward Curves](results/reward_curves.png)
-*Reward improvement over training: Baseline (red, flat ~0.3) vs Trained (green, climbing to 0.7+). The agent learns to avoid Socratic Compliance penalties and optimize for genuine teaching progress.*
+**Before Training** (Base Qwen2.5-1.5B):
+```
+Student: "I think 0.1 + 0.2 should equal 0.3 exactly in Python."
+Agent: "Actually, that's not quite right. Floating point numbers in computers 
+        use binary representation, which can't exactly represent 0.1..."
+```
+❌ Directly explains the answer
 
-![Success Rate](results/success_rate.png)
-*Student success rate: Baseline teacher succeeds 15-25% of the time. Trained agent improves to 60-75% success by guiding students to correct understanding.*
-
-![Reward Breakdown](results/reward_breakdown.png)
-*Component analysis: The trained agent improves across all reward signals—Teaching Progress (+133%), Socratic Compliance (stops giving answers), Question Quality (+140%), and Efficiency (+300%).*
-
-**Key Observations:**
-- Reward starts deeply negative due to the anti-cheating penalty
-- Around step 200, the model discovers that asking open-ended questions avoids the penalty → reward spikes
-- By step 500, it masters misconception targeting and reaches optimal rewards (~0.70+)
-- The agent learns that good teaching requires patience, not revelation
+**After Training**:
+```
+Student: "I think 0.1 + 0.2 should equal 0.3 exactly in Python."
+Agent: "What do you think happens when you try that in Python?"
+Student: "It gives 0.30000000000000004"
+Agent: "Interesting! Why might that be?"
+```
+✅ Guides through questions
 
 ## Project Structure
 
