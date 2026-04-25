@@ -97,7 +97,6 @@ def train():
     
     trainer = GRPOTrainer(
         model=model,
-        tokenizer=tokenizer,
         args=GRPOConfig(
             learning_rate=CONFIG["learning_rate"],
             per_device_train_batch_size=CONFIG["batch_size"],
