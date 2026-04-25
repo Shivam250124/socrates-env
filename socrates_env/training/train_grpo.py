@@ -94,23 +94,23 @@ def train():
     dataset = build_prompt_dataset(env, num_prompts=200)
 
     logger.info("Configuring GRPO trainer...")
-    grpo_config = GRPOConfig(
-        learning_rate=CONFIG["learning_rate"],
-        per_device_train_batch_size=CONFIG["batch_size"],
-        num_generations=CONFIG["num_rollouts_per_prompt"],
-        max_prompt_length=1024,
-        max_completion_length=256,
-        output_dir=CONFIG["output_dir"],
-        logging_steps=CONFIG["log_every_n_steps"],
-        save_steps=CONFIG["save_every_n_episodes"],
-        report_to="wandb" if CONFIG["use_wandb"] else "none",
-        bf16=False,  # T4 GPU doesn't support bf16
-        fp16=True,   # Use fp16 instead
-    )
-
+    
     trainer = GRPOTrainer(
         model=model,
-        config=grpo_config,
+        tokenizer=tokenizer,
+        args=GRPOConfig(
+            learning_rate=CONFIG["learning_rate"],
+            per_device_train_batch_size=CONFIG["batch_size"],
+            num_generations=CONFIG["num_rollouts_per_prompt"],
+            max_prompt_length=1024,
+            max_completion_length=256,
+            output_dir=CONFIG["output_dir"],
+            logging_steps=CONFIG["log_every_n_steps"],
+            save_steps=CONFIG["save_every_n_episodes"],
+            report_to="wandb" if CONFIG["use_wandb"] else "none",
+            bf16=False,  # T4 GPU doesn't support bf16
+            fp16=True,   # Use fp16 instead
+        ),
         reward_funcs=[socrates_reward_fn],
         train_dataset=dataset,
     )
