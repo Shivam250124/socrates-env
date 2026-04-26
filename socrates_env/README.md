@@ -130,6 +130,10 @@ Agent: "Interesting! Why might that be?"
 ```
 ✅ Guides through questions
 
+### More Examples
+
+See [DEMO_EXAMPLE.md](socrates_env/DEMO_EXAMPLE.md) for additional examples showing the model's Socratic questioning behavior across different programming concepts.
+
 ### Training Details
 
 - **Method**: Supervised fine-tuning with LoRA adapters
