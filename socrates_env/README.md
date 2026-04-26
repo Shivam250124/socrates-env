@@ -2,11 +2,19 @@
 
 > **Train LLMs to teach like Socrates — through questions, never answers.**
 
-🔗 **Links:**
-- 🚀 **[Hugging Face Space Demo](https://huggingface.co/spaces/tusharpawar21/socrates-teaching-env)**
-- 🤗 **[Trained Model](https://huggingface.co/shivam250124/socrates-tutor-qwen-1.5b)** (Qwen2.5-1.5B + LoRA)
-- 📖 **[Blog Post / Writeup](./BLOG_POST.md)**
-- 📓 **[Colab Training Notebook](./notebooks/SocratesTraining.ipynb)**
+## 🔗 Submission Links
+
+**Required for OpenEnv Hackathon:**
+
+- 🚀 **HuggingFace Space**: [https://huggingface.co/spaces/tusharpawar21/socrates-teaching-env](https://huggingface.co/spaces/tusharpawar21/socrates-teaching-env)
+- 📓 **Colab Notebook**: [https://github.com/Shivam250124/socrates-env/blob/main/socrates_env/notebooks/SocratesTraining.ipynb](https://github.com/Shivam250124/socrates-env/blob/main/socrates_env/notebooks/SocratesTraining.ipynb)
+- 💻 **Code Repository**: [https://github.com/Shivam250124/socrates-env](https://github.com/Shivam250124/socrates-env)
+- 📖 **Blog Post**: [https://github.com/Shivam250124/socrates-env/blob/main/BLOG_POST.md](https://github.com/Shivam250124/socrates-env/blob/main/BLOG_POST.md)
+
+**Additional Resources:**
+
+- 🤗 **Trained Model**: [https://huggingface.co/shivam250124/socrates-tutor-qwen-1.5b](https://huggingface.co/shivam250124/socrates-tutor-qwen-1.5b)
+- 📊 **Demo Examples**: [DEMO_EXAMPLE.md](https://github.com/Shivam250124/socrates-env/blob/main/socrates_env/DEMO_EXAMPLE.md)
 
 ## The Problem
 
